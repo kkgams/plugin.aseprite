@@ -1,0 +1,13 @@
+{
+  "name": "plugin.aseprite",
+  "slug": "aseprite",
+  "source": "aseprite",
+  "world": "gams:aseprite/aseprite-plugin@1.0.0",
+  "binding": "aseprite_plugin",
+  "members": [
+    "aseprite"
+  ],
+  "artifacts": [
+    "plugin.aseprite.wasm"
+  ]
+}
