@@ -23,10 +23,10 @@
   "LICENSES/wasmtime-Apache-LLVM.txt": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5",
   "LICENSES/wit-bindgen-Apache.txt": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
   "LICENSES/wit-bindgen-MIT.txt": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3",
-  "LICENSING.md": "9c90a7d909f589c226e600b2cd66f551d7769ba9de2b67fc2ee5e9d751de256e",
+  "LICENSING.md": "5ab40c24f99a7a4ef4e26af2f1aec0e769d3d4b6c19383bf27904fe51d87d60c",
   "Makefile": "bebe6c97ccd2d043a593ba5e1a2b27a0c4ff036f2ece06745806deead7d257bf",
-  "README.md": "bdb43ff4899e643129d78f93ee5f328e088320a403291ba976c723553e1b3185",
-  "THIRD-PARTY-REVIEW.md": "8265b2ab114a89749575a12742e2ce711590a925fb0575a2a758d009ff1a462b",
+  "README.md": "b314d63029bbcfac11d38ed45a45795c0509a37e22748b4d1343d3edc60cd880",
+  "THIRD-PARTY-REVIEW.md": "2bdcccd563b706bc016d38b3cc6f383e752d8dccc322d84c4ae3637424adb0ad",
   "THIRD-PARTY-SOURCE.json": "6b11212eb8f2e7bcd8baf301adcd2a8cd4ed384bf38f52700fb28097d3a731a1",
   "component.json": "99a04f404b3758c1fc9e5bfa19e3fb97ac3784662b1f61a2180481e7602cb98a",
   "flake.lock": "3adbe3447e662145dd50a383489f62e7bfbe16996281e113b1fbac347eca3eae",
@@ -53,5 +53,5 @@
   "scripts/wasm-notices.py": "91d94800f753ae948e9289393da9b6b63f6dc24e154a41fbdae2fd59f9305d85",
   "test/runtime.mjs": "d0bcae167cdbf0b4bc9f6a02821a03a8d7469fdaa18a14a10ca2ddcca0ea1c7c",
   "test/test_integrity.py": "35936d0df14d552d49acf5aaa707dbd38024dbc164acf7c939ebedbe0f5219f2",
-  "version.txt": "1f930dd1f133c1f97a94fe3acb8db34372cf4c01ffdb2b3ff4ca72f9494121e9"
+  "version.txt": "71015c979ccb0fc8a0be7ca0ae83046ab045cdc2c8faa09fb2f0f7e440f9b4a6"
 }
