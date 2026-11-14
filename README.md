@@ -1,86 +1,30 @@
 # plugin.aseprite
 
-GAMS WASM Project Unit for reading Aseprite documents and rendering their frames.
-The component exports `gams:aseprite/aseprite-plugin@1.0.0`; distribution and
-WIT interface versions are independent.
+A [GAMS](https://github.com/kkgams/gams) WASM plugin for reading Aseprite documents and rendering frames.
+
+| Unit | Source / artifact | Screenshot | License | Original work |
+| --- | --- | --- | --- | --- |
+| Aseprite reader | `plugins/aseprite.comp/component.c` / `plugin.aseprite.wasm` | Not applicable | [Apache-2.0](LICENSE), [third-party terms](LICENSING.md) | GAMS; [stb_image by Sean Barrett](https://github.com/nothings/stb) |
 
 ## API
 
-The contract is in `plugins/aseprite.comp/wit/package.wit`:
+`plugins/aseprite.comp/wit/package.wit` defines `gams:aseprite/aseprite-plugin@1.0.0`: open/parse documents, inspect layers, frames, cels, tags, palettes, slices and tilesets, read pixels, render frames and serialize information. Path access uses Host-provided WASI preopens; operations return WIT results for errors.
 
-- `open` and `parse-bytes` create a document from a filesystem path or bytes.
-- Inspect document information, layers, frames, cels, tags, palettes, slices,
-  and tilesets.
-- Read cel data/pixels, render frames, or serialize document information to JSON.
+## Development
 
-The Host provides WASI filesystem preopens for path access. The plugin does
-not grant itself access outside those capabilities. Operations return WIT
-`result` values for errors.
+Use `nix develop` (or direnv) for pinned WASI SDK 33, wit-bindgen, wasm-tools and documentation tools. No sibling checkout is required.
 
-## Build and test
+| Command | Purpose |
+| --- | --- |
+| `make build` | Compile and validate the component with embedded notices. |
+| `make package` | Prepare `build.nosync/plugin.aseprite.wasm`, `LICENSES.zip` and `SHA256SUMS` incrementally. |
+| `make check` | Check Python tooling syntax; no API runtime tests are provided. |
+| `make open` | Build and open this local Project in the released macOS Apple Silicon Host. |
+| `make docs` | Build the wiki to `build.nosync/site`. |
+| `make serve-docs` | Preview the wiki; `DOCS_PORT` defaults to 8080. |
+| `make validate-docs` | Validate wiki content. |
+| `make clean` | Remove `build.nosync` and identified Host/Unit downloads; refuse tracked files, symlinks and unidentified supplied tools/caches. |
 
-All source/build inputs are owned by this repository; no sibling checkout is
-required. Use the pinned Nix environment:
+The local Project browses files with pinned published Units; it is not an Aseprite editor or runtime test. Downloads preserve accompanying notices and existing Host tools. Packaging does not verify native Host/API behavior.
 
-```sh
-nix develop --command make build
-nix develop --command make test
-```
-
-Output: `dist/plugin.aseprite.wasm`. Install it in an external GAMS Project as
-`plugins/aseprite.comp.wasm`; configure that Project separately.
-
-The flake and lockfiles pin the toolchain. Network access may be required to
-fetch tools. `.envrc` supports `direnv allow`.
-
-`make test` runs offline integrity/publication regression tests, builds the
-component, validates its WASM, extracts its WIT, and checks the exact input
-inventory. It does **not** exercise the Aseprite API in a standalone WASM runtime.
-Build success does not establish runtime behavior or Host integration coverage.
-
-## Licensing and releases
-
-GAMS-authored contributions are Apache-2.0. Third-party code retains its own
-terms; see `LICENSING.md`, `THIRD-PARTY-REVIEW.md`, and `LICENSES/`.
-Source inventory and notice evidence are checked before candidate packaging.
-Changed inputs require separately authorized evidence refreshes; source snapshot
-verification remains strict and is not refreshed by release tooling.
-
-Distribution is through GitHub Releases, not npm or OCI. Pushing a matching
-`v<version.txt>` tag authorizes publication from that commit; no approval digest
-variables or required publication branch are used. Manual workflow dispatch
-verifies without publishing. Build/tests, canonical repository and tag/version
-identity, legal texts and embedded notices, evidence/source inventory, artifact
-checksums, candidate integrity, and no-overwrite checks must pass. Never reuse
-or move a published or failed tag. An existing release blocks creation.
-
-Enable immutable releases in the repository settings before publication. The
-automatic GitHub token is sufficient; no administrative settings API or extra
-policy token is used. Public release verification requires `immutable: true`.
-
-The publication workflow rehearses a private draft's bytes before publication
-and checks the anonymous public bytes afterward. Keep LICENSE, NOTICE, evidence,
-review documents, and applicable LICENSES with distributed artifacts. See the
-repository's release workflow and scripts for the enforced gates.
-
-## Local Project and documentation
-
-```sh
-nix develop --command make open
-make serve-docs                 # http://localhost:8080; override DOCS_PORT
-make validate-docs
-make docs                       # portable site under build/site/
-```
-
-`make open` builds the component and opens this repository's `gams.json` with
-explicit `GAMS_APP_CWD`. If absent, `tools/gams.app` is downloaded from the latest
-GAMS macOS Apple Silicon release, with its accompanying notices retained.
-An existing download is never updated implicitly; Gatekeeper is not bypassed.
-No neighboring checkout is required. First launch needs network access for the
-Project's pinned published dependencies.
-
-The local Project loads the built plugin and the published Files View to browse
-Project files. It is not a plugin-specific editor or an API/runtime test.
-The wiki uses pinned `justgook/wiki` v1.4.0, cached under ignored `build/`.
-GitHub Pages builds with `make docs` on every push to `release`, independently of
-component releases. Set Pages source to **GitHub Actions** in repository settings.
+Distribute the readable `LICENSES.zip` terms together with the raw WASM.

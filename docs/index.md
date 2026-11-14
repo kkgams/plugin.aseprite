@@ -1,42 +1,34 @@
 ---
 title: plugin.aseprite
-description: Local development and Project launch.
+description: Read Aseprite documents and render frames.
 status: reference
 ---
 
 # plugin.aseprite
 
-Reads Aseprite documents and renders their frames through
-`gams:aseprite/aseprite-plugin@1.0.0`. Use `open` for a Project-relative path or
-`parse-bytes` for supplied document bytes, then inspect layers, frames, cels,
-tags, palettes, slices and tilesets or render a frame. The Host grants filesystem
-access through WASI preopens. The canonical contract is
-`plugins/aseprite.comp/wit/package.wit`.
+A [GAMS](https://github.com/kkgams/gams) WASM plugin for reading Aseprite documents and rendering frames.
 
-Develop with `nix develop --command make test`; output is
-`dist/plugin.aseprite.wasm`. These checks cover integrity and component builds,
-not Aseprite API runtime behavior.
+| Unit | Source / artifact | Original work |
+| --- | --- | --- |
+| Aseprite reader | `plugins/aseprite.comp/component.c` / `plugin.aseprite.wasm` | GAMS; stb_image by Sean Barrett |
 
-## Local Project and documentation
+## API
 
-```sh
-nix develop --command make open
-make serve-docs                 # http://localhost:8080; override DOCS_PORT
-make validate-docs
-make docs                       # portable site under build/site/
-```
+`plugins/aseprite.comp/wit/package.wit` defines `gams:aseprite/aseprite-plugin@1.0.0`: open/parse documents, inspect layers, frames, cels, tags, palettes, slices and tilesets, read pixels, render frames and serialize information. Path access uses Host-provided WASI preopens; operations return WIT results for errors.
 
-`make open` builds the component and opens this repository's `gams.json` with
-explicit `GAMS_APP_CWD`. If absent, `tools/gams.app` is downloaded from the latest
-GAMS macOS Apple Silicon release, with its accompanying notices retained.
-An existing download is never updated implicitly; Gatekeeper is not bypassed.
-No neighboring checkout is required. First launch needs network access for the
-Project's pinned published dependencies.
+## Development
 
-The local Project loads the built plugin and the published Files View to browse
-Project files. It is not a plugin-specific editor or an API/runtime test.
-The wiki uses pinned `justgook/wiki` v1.4.0, cached under ignored `build/`.
-GitHub Pages builds with `make docs` on every push to `release`, independently of
-component releases. Set Pages source to **GitHub Actions** in repository settings.
+Use `nix develop` (or direnv) for pinned WASI SDK 33, wit-bindgen, wasm-tools and documentation tools. No sibling checkout is required.
 
-The component API and release safeguards remain documented in the repository README.
+| Command | Purpose |
+| --- | --- |
+| `make build` | Compile and validate the component with embedded notices. |
+| `make package` | Prepare `build.nosync/plugin.aseprite.wasm`, `LICENSES.zip` and `SHA256SUMS` incrementally. |
+| `make check` | Check Python tooling syntax; no API runtime tests are provided. |
+| `make open` | Build and open this local Project in the released macOS Apple Silicon Host. |
+| `make docs` | Build the wiki to `build.nosync/site`. |
+| `make serve-docs` | Preview the wiki; `DOCS_PORT` defaults to 8080. |
+| `make validate-docs` | Validate wiki content. |
+| `make clean` | Remove `build.nosync` and identified Host/Unit downloads; refuse tracked files, symlinks and unidentified supplied tools/caches. |
+
+The local Project browses files with pinned published Units; it is not an Aseprite editor or runtime test. Downloads preserve accompanying notices and existing Host tools. Packaging does not verify native Host/API behavior.
